@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "790390073401",
+    "project_id": "droidshop-656a8",
+    "storage_bucket": "droidshop-656a8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790390073401:android:82f271ca824a74dc7085e8",
+        "android_client_info": {
+          "package_name": "com.schoolproject.droidshop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyZo-DQ4cTaCEQa2NvSEA0Hz5lDw0CdIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
