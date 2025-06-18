@@ -1,9 +1,14 @@
 package com.schoolproject.droidshop.presentation.home_screen
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,18 +32,32 @@ fun HomeScreen(
             navigateToSignInScreen()
         }
     }
-    Column(
-        modifier = Modifier
-            .systemBarsPadding()
-            .fillMaxSize()
-    ){
-        Text("Welcome to Droid Shop")
-        Button(
-            onClick = {
-                authViewModel.signOut()
+
+    Scaffold(
+        snackbarHost = {
+
+        },
+        topBar = {
+
+        },
+        content = { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ) {
+
+                ImageSliderSection()
             }
-        ) {
-            Text("Logout")
+
         }
-    }
+    )
+
+
+
+
+
+
+
+
 }

@@ -1,4 +1,4 @@
-package com.schoolproject.droidshop.presentation.splash_screen
+package com.schoolproject.droidshop.presentation.registeration.splash_screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

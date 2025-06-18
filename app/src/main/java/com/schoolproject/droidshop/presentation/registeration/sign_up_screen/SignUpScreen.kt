@@ -1,4 +1,4 @@
-package com.schoolproject.droidshop.presentation.sign_up_screen
+package com.schoolproject.droidshop.presentation.registeration.sign_up_screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
