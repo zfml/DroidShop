@@ -4,6 +4,11 @@ import android.content.Context
 import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.schoolproject.droidshop.data.remote.auth.FirebaseAuthService
+import com.schoolproject.droidshop.data.remote.firestore.CategoryService
+import com.schoolproject.droidshop.data.remote.firestore.ProductService
+import com.schoolproject.droidshop.data.repository.AuthRepositoryImpl
+import com.schoolproject.droidshop.domain.repository.AuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,21 +36,30 @@ object AppModule {
 //    @Provides
 //    fun provideFavoriteDao(db: AppDatabase): FavoriteDao = db.favoriteDao()
 
-//    @Provides
-//    @Singleton
-//    fun provideAuthService(auth: FirebaseAuth): FirebaseAuthService =
-//        FirebaseAuthService(auth)
-//
-//    @Provides
-//    @Singleton
-//    fun provideCategoryService(fs: FirebaseFirestore): CategoryService =
-//        CategoryService(fs)
-//
-//    @Provides
-//    @Singleton
-//    fun provideProductService(fs: FirebaseFirestore): ProductService =
-//        ProductService(fs)
-//
+    @Provides
+    @Singleton
+    fun provideAuthService(auth: FirebaseAuth): FirebaseAuthService =
+        FirebaseAuthService(auth)
+
+    @Provides
+    @Singleton
+    fun provideCategoryService(fs: FirebaseFirestore): CategoryService =
+        CategoryService(fs)
+
+    @Provides
+    @Singleton
+    fun provideProductService(fs: FirebaseFirestore): ProductService =
+        ProductService(fs)
+
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(
+        firebaseAuthService: FirebaseAuthService
+    ): AuthRepository = AuthRepositoryImpl(
+        firebaseAuthService
+    )
+
 //    @Provides
 //    @Singleton
 //    fun provideProductRepository(
