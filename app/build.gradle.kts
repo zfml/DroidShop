@@ -52,7 +52,8 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+
+
 
 
     implementation(libs.android.datastore.preferences)
@@ -65,6 +66,9 @@ dependencies {
     implementation(libs.firebase.firestore.ktx)
     kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
+
+    implementation(libs.androidx.material3)
+
 
 
 //    implementation(libs.firebase.functions.ktx)
@@ -90,6 +94,10 @@ dependencies {
     implementation(libs.nl.dionsegijn.konfetti.compose)
 
     implementation(libs.accompanist.pager)
+
+    implementation(libs.lottie.compose)
+
+
 
 
     testImplementation(libs.junit)

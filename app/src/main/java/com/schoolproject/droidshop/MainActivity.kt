@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.schoolproject.droidshop.presentation.main_screen.MainScreen
 import com.schoolproject.droidshop.presentation.navigation.SetUpNavGraph
 import com.schoolproject.droidshop.ui.theme.DroidShopTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,27 +28,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DroidShopTheme {
-                navController = rememberNavController()
-                SetUpNavGraph(
-                    navController = navController
-                )
+                SetUpNavGraph(navController = rememberNavController())
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    DroidShopTheme {
-        Greeting("Android")
     }
 }

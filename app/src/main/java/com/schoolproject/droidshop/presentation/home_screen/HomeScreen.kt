@@ -20,19 +20,8 @@ import com.schoolproject.droidshop.presentation.viewmodel.AuthViewModel
 
 @Composable
 fun HomeScreen(
-    authViewModel : AuthViewModel = hiltViewModel(),
-    navigateToSignInScreen: () -> Unit
+
 ){
-
-
-    val isLoggedIn by authViewModel.isUserLoggedIn.collectAsState()
-
-    LaunchedEffect(isLoggedIn) {
-        if (isLoggedIn == false) {
-            navigateToSignInScreen()
-        }
-    }
-
     Scaffold(
         snackbarHost = {
 
