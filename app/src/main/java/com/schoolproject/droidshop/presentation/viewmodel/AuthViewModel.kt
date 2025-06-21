@@ -61,21 +61,22 @@ class AuthViewModel @Inject constructor(
     }
 
 
-    fun signOut() {
-        viewModelScope.launch {
-            when(val response = authRepository.signOut()) {
-                is Resource.Error -> {
-                    _authState.value = Resource.Error(response.message.toString())
-                }
-                is Resource.Loading -> {}
-                is Resource.Success -> {
-                    _isUserLoggedIn.value = false
-                }
-
-                is Resource.Idle -> {}
-            }
+    fun signOut() = viewModelScope.launch {
+        authRepository.signOut()
+//            when(val response = authRepository.signOut()) {
+//                is Resource.Error -> {
+//                    _authState.value = Resource.Error(response.message.toString())
+//                }
+//                is Resource.Loading -> {
+//                    _authState.value = Resource.Loading()
+//                }
+//                is Resource.Success -> {
+//                    _isUserLoggedIn.value = false
+//                }
+//
+//                is Resource.Idle -> {}
+//            }
 
         }
 
-    }
 }

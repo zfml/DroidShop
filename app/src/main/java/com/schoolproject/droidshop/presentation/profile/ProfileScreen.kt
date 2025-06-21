@@ -7,6 +7,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.schoolproject.droidshop.core.util.Resource
@@ -18,23 +19,24 @@ fun ProfileScreen(
     navigateToLoginScreen: () -> Unit
 ){
 
-    val state = authViewModel.authState.collectAsState()
+    val state by authViewModel.authState.collectAsState()
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
 
         Button(
             onClick = {
+                authViewModel.signOut()
                 navigateToLoginScreen()
-//                authViewModel.signOut()
+
             }
         ) {
             Text("Logout")
         }
 
-        when(state.value) {
+        when(state) {
             is Resource.Error -> {
-                Text(state.value.message.toString())
+                Text(state.message.toString())
             }
             is Resource.Idle -> {
 

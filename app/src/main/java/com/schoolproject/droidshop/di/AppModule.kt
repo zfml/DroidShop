@@ -8,7 +8,9 @@ import com.schoolproject.droidshop.data.remote.auth.FirebaseAuthService
 import com.schoolproject.droidshop.data.remote.firestore.CategoryService
 import com.schoolproject.droidshop.data.remote.firestore.ProductService
 import com.schoolproject.droidshop.data.repository.AuthRepositoryImpl
+import com.schoolproject.droidshop.data.repository.ProductRepositoryImpl
 import com.schoolproject.droidshop.domain.repository.AuthRepository
+import com.schoolproject.droidshop.domain.repository.ProductRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -59,6 +61,15 @@ object AppModule {
     ): AuthRepository = AuthRepositoryImpl(
         firebaseAuthService
     )
+
+
+
+
+    @Singleton
+    @Provides
+    fun provideProductRepository(
+        firestore: FirebaseFirestore
+    ): ProductRepository = ProductRepositoryImpl(firestore)
 
 //    @Provides
 //    @Singleton

@@ -9,7 +9,7 @@ data class ProductDto(
     val name: String = "",
     val description: String = "",
     val price: Double = 0.0,
-    @PropertyName("image_url")
+    @PropertyName("imageUrl")
     val imageUrl: String = "",
     @PropertyName("category_id")
     val categoryId: String = ""

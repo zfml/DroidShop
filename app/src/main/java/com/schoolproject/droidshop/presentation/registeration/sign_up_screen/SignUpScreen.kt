@@ -90,3 +90,14 @@ fun SignUpScreen(
 
     }
 }
+@Composable
+fun SignUpContent(
+    email: String,
+    username: String,
+    password: String,
+    onEmailChanged: (String) -> Unit,
+    onUsernameChanged: (String) -> Unit,
+
+) {
+
+}

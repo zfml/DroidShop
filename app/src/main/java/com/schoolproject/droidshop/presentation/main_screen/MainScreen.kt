@@ -1,7 +1,10 @@
 package com.schoolproject.droidshop.presentation.main_screen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
@@ -27,6 +30,7 @@ import com.schoolproject.droidshop.presentation.viewmodel.AuthViewModel
 
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("RestrictedApi")
 @Composable
 fun MainScreen(
@@ -36,11 +40,11 @@ fun MainScreen(
     val navController = rememberNavController()
     val isLoggedIn by authViewModel.isUserLoggedIn.collectAsState()
 
-//    LaunchedEffect(isLoggedIn) {
-//        if (isLoggedIn == false) {
-//            navigateToSignInScreen()
-//        }
-//    }
+    LaunchedEffect(isLoggedIn) {
+        if (isLoggedIn == false) {
+            navigateToSignInScreen()
+        }
+    }
 
     val startDestination = Destination.HOME
     var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
@@ -48,6 +52,10 @@ fun MainScreen(
 
 
     Scaffold(
+        topBar = {
+
+
+        },
         bottomBar = {
             NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
                 Destination.entries.forEachIndexed { index, destination ->
@@ -79,7 +87,11 @@ fun MainScreen(
         AppNavHost(
             navController = navController,
             startDestination = Destination.HOME,
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier
+                .padding(innerPadding)
+
+            ,
+
             navigateToLoginScreen = navigateToSignInScreen
         )
     }

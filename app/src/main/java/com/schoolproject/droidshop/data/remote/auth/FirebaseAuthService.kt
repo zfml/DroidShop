@@ -1,8 +1,10 @@
 package com.schoolproject.droidshop.data.remote.auth
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -34,7 +36,11 @@ class FirebaseAuthService @Inject constructor(
     fun signOut() {
         auth.signOut()
     }
-
     val currentUser: FirebaseUser?
         get() = auth.currentUser
+
+
+
+
+
 }

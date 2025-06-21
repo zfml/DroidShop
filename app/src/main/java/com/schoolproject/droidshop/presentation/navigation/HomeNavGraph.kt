@@ -43,7 +43,7 @@ fun AppNavHost(
         Destination.entries.forEach { destination ->
             composable(destination.route) {
                 when (destination) {
-                    Destination.HOME -> HomeScreen()
+                    Destination.HOME -> HomeScreen(modifier)
                     Destination.SEARCH ->  {
                         Text("Search Screen")
                     }
