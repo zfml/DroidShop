@@ -30,7 +30,7 @@ fun SetUpNavGraph(
         exitTransition = { fadeOut(animationSpec = tween(100)) },
         popEnterTransition = { fadeIn(animationSpec = tween(100)) },
         popExitTransition = { fadeOut(animationSpec = tween(100)) },
-        startDestination = MainScreen
+        startDestination = SplashScreen
     )
     {
         composable<SplashScreen> {
@@ -117,7 +117,7 @@ fun SetUpNavGraph(
         composable<SignUpScreen> {
              SignUpScreen(
                  navigateToHomeScreen = {
-                     navController.navigate(HomeScreen) {
+                     navController.navigate(MainScreen) {
                          popUpTo(SignUpScreen) {
                              inclusive = true
                          }

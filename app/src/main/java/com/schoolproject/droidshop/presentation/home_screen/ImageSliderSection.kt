@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -55,7 +56,6 @@ fun ImageSliderSection(
             pageSpacing = 16.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp)
         ) { page ->
             Image(
                 painter = painterResource(id = dummySliderImage[page].image),
@@ -68,12 +68,13 @@ fun ImageSliderSection(
             )
         }
 
+
         PageIndicator(
             numberOfPages = pagerState.pageCount,
             selectedPage = pagerState.currentPage,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(bottom = 8.dp)
+                .padding(top = 16.dp, bottom = 8.dp)
         )
     }
 
