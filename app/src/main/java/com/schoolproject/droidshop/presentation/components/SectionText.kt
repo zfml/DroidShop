@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.schoolproject.droidshop.ui.theme.poppinsFontFamily
 
 @Composable
 fun SectionText(
@@ -30,13 +31,14 @@ fun SectionText(
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier
                 .weight(1f),
-            fontSize = 18.sp
+            fontSize = 18.sp,
+            fontFamily = poppinsFontFamily
         )
         Text(
             text = text2,
             fontWeight = FontWeight.Medium,
-            modifier = Modifier
-            ,
+            modifier = Modifier,
+            fontFamily = poppinsFontFamily
         )
     }
 

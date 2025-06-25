@@ -15,6 +15,7 @@ import javax.inject.Inject
 class AllProductViewModel @Inject constructor(
     private val repository: ProductRepository
 ): ViewModel(){
+
     private val _productState = MutableStateFlow<Resource<List<Product>>>(Resource.Loading())
     val productState: StateFlow<Resource<List<Product>>> = _productState
 

@@ -3,4 +3,7 @@
     <string name="enter_your_email">Enter your email</string>
     <string name="error_email">Invalid email address</string>
     <string name="sign_up">Sign Up</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="product_detail">Product Detail</string>
+    <string name="favourite">Favourite</string>
 </resources>

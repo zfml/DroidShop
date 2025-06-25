@@ -13,8 +13,10 @@ import androidx.navigation.Navigation
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.schoolproject.droidshop.presentation.cart_screen.CartScreen
 import com.schoolproject.droidshop.presentation.home_screen.HomeScreen
 import com.schoolproject.droidshop.presentation.main_screen.MainScreen
+import com.schoolproject.droidshop.presentation.product_detail.DetailScreen
 import com.schoolproject.droidshop.presentation.registeration.sign_in_screen.SignInScreen
 import com.schoolproject.droidshop.presentation.registeration.sign_up_screen.SignUpScreen
 import com.schoolproject.droidshop.presentation.registeration.splash_screen.SplashScreen
@@ -62,6 +64,12 @@ fun SetUpNavGraph(
                             inclusive = true
                         }
                     }
+                },
+                navigateToProductDetailScreen = {
+                    navController.navigate(DetailScreen(productId = it))
+                },
+                navigateToCartScreen = {
+                    navController.navigate(CartScreen)
                 }
             )
         }
@@ -132,6 +140,20 @@ fun SetUpNavGraph(
                  }
              )
         }
+
+        composable<DetailScreen> {
+            DetailScreen(
+                navigateToMainScreen = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable<CartScreen> {
+            CartScreen()
+        }
+
+
     }
 }
 
@@ -149,6 +171,13 @@ object SplashScreen
 
 @Serializable
 object ProfileScreen
+
+@Serializable
+data class DetailScreen(val productId: String)
+
+@Serializable
+object CartScreen
+
 
 
 

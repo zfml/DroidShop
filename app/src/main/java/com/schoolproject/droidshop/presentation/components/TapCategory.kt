@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.schoolproject.droidshop.presentation.products.all.AllProductScreen
+import com.schoolproject.droidshop.ui.theme.poppinsFontFamily
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -42,7 +43,7 @@ fun TabCategory(
     gridHeight: Dp = Dp.Unspecified,
     snackbarHostState: SnackbarHostState,
     scope: CoroutineScope,
-    navigateToDetail: (Int) -> Unit
+    navigateToDetail: (String) -> Unit
 ) {
 
     val category by remember {
@@ -93,14 +94,14 @@ fun TabCategory(
                         if (index == pagerState.currentPage) {
                             Text(
                                 text = category[index],
-//                                fontFamily = poppinsFontFamily,
+                                fontFamily = poppinsFontFamily,
                                 fontWeight = FontWeight.Medium,
                                 color = MaterialTheme.colorScheme.primary
                             )
                         } else {
                             Text(
                                 text = category[index],
-//                                fontFamily = poppinsFontFamily,
+                                fontFamily = poppinsFontFamily,
                                 fontWeight = FontWeight.Medium,
                                 color = MaterialTheme.colorScheme.outline
                             )

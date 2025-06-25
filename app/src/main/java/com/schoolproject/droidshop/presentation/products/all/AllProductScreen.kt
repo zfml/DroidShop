@@ -1,6 +1,7 @@
 package com.schoolproject.droidshop.presentation.products.all
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,6 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +39,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -45,7 +49,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.schoolproject.droidshop.R
 import com.schoolproject.droidshop.core.util.Resource
+import com.schoolproject.droidshop.domain.model.Cart
+import com.schoolproject.droidshop.presentation.cart_screen.CartViewModel
+import com.schoolproject.droidshop.ui.theme.poppinsFontFamily
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun AllProductScreen(
@@ -53,17 +61,18 @@ fun AllProductScreen(
     limit: Int,
     height: Dp,
     count: Int = 4,
-    navigateToDetail: (Int) -> Unit,
+    navigateToDetail: (String) -> Unit,
     viewModel: AllProductViewModel = hiltViewModel(),
+    cartViewModel: CartViewModel = hiltViewModel(),
     snackbarHostState: SnackbarHostState,
     scope: CoroutineScope
 ) {
 
     val productState by viewModel.productState.collectAsState()
 
-//    LaunchedEffect(Unit) {
-//        viewModel.fetchAllProducts()
-//    }
+    val context = LocalContext.current
+
+
 
     when (productState) {
         is Resource.Loading ->
@@ -90,7 +99,30 @@ fun AllProductScreen(
                             name = product.name,
                             description = product.description,
                             price = product.price.toString(),
-                            addToCart = {}
+                            addToCart = {
+                                cartViewModel.addToCart(
+                                    Cart(
+                                        productId = product.id,
+                                        productName = product.name,
+                                        productDescription = product.description,
+                                        productImage = product.imageUrl,
+                                        productQuantity = 1
+                                    )
+                                )
+
+
+                                scope.launch {
+
+                                    snackbarHostState
+                                        .showSnackbar(
+                                            message = "Product added to cart",
+                                            duration = SnackbarDuration.Short
+                                        )
+                                }
+                            },
+                            navigateToDetail = {
+                                navigateToDetail(product.id)
+                            }
                         )
                     }
                 }
@@ -113,12 +145,16 @@ fun ProductCard(
     name: String,
     description: String,
     price: String,
-    addToCart: () -> Unit
+    addToCart: () -> Unit,
+    navigateToDetail: () -> Unit
 ) {
     Column(
         modifier = modifier
             .width(160.dp)
             .padding(16.dp)
+            .clickable {
+                navigateToDetail()
+            }
             .wrapContentHeight(),
         horizontalAlignment = Alignment.Start
     ) {
@@ -143,13 +179,15 @@ fun ProductCard(
             Text(
                 fontSize = 14.sp,
                 text = category,
-                color = MaterialTheme.colorScheme.outline
+                color = MaterialTheme.colorScheme.outline,
+                fontFamily = poppinsFontFamily
             )
             Text(
                 text = name,
                 maxLines = 1,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
+                fontFamily = poppinsFontFamily
             )
 
 
@@ -164,6 +202,7 @@ fun ProductCard(
                     text = "$$price",
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 20.sp,
+                    fontFamily = poppinsFontFamily
                 )
                 Icon(
                     painter = painterResource(R.drawable.icon_cart_outlined),

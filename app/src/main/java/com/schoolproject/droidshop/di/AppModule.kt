@@ -1,15 +1,21 @@
 package com.schoolproject.droidshop.di
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.schoolproject.droidshop.data.local.dao.CartDao
+import com.schoolproject.droidshop.data.local.dao.FavouriteDao
+import com.schoolproject.droidshop.data.local.database.DroidShopDatabase
 import com.schoolproject.droidshop.data.remote.auth.FirebaseAuthService
 import com.schoolproject.droidshop.data.remote.firestore.CategoryService
 import com.schoolproject.droidshop.data.remote.firestore.ProductService
 import com.schoolproject.droidshop.data.repository.AuthRepositoryImpl
+import com.schoolproject.droidshop.data.repository.FavouriteRepositoryImpl
 import com.schoolproject.droidshop.data.repository.ProductRepositoryImpl
 import com.schoolproject.droidshop.domain.repository.AuthRepository
+import com.schoolproject.droidshop.domain.repository.FavouriteRepository
 import com.schoolproject.droidshop.domain.repository.ProductRepository
 import dagger.Module
 import dagger.Provides
@@ -29,6 +35,30 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFirestore(): FirebaseFirestore = FirebaseFirestore.getInstance()
+
+
+    @Provides
+    @Singleton
+    fun provideDatabase(app: Application): DroidShopDatabase {
+        return Room.databaseBuilder(
+            app,
+            DroidShopDatabase::class.java,
+            "droid_shop.db"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCartDao(db: DroidShopDatabase): CartDao {
+        return db.cartDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavouriteDao(db: DroidShopDatabase): FavouriteDao {
+        return db.favouriteDao()
+    }
+
 
 //    @Provides
 //    @Singleton
@@ -68,8 +98,16 @@ object AppModule {
     @Singleton
     @Provides
     fun provideProductRepository(
-        firestore: FirebaseFirestore
-    ): ProductRepository = ProductRepositoryImpl(firestore)
+        firestore: FirebaseFirestore,
+        cartDao: CartDao,
+        favouriteDao: FavouriteDao
+    ): ProductRepository = ProductRepositoryImpl(firestore,cartDao,favouriteDao)
+
+    @Singleton
+    @Provides
+    fun provideFavouriteRepository(
+        favouriteDao: FavouriteDao
+    ): FavouriteRepository = FavouriteRepositoryImpl(favouriteDao)
 
 //    @Provides
 //    @Singleton

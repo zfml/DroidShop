@@ -48,7 +48,7 @@ fun ImageSliderSection(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .height(230.dp) // Set desired height for the whole slider
+            .height(200.dp) // Set desired height for the whole slider
     ) {
         HorizontalPager(
             state = pagerState,
@@ -74,7 +74,7 @@ fun ImageSliderSection(
             selectedPage = pagerState.currentPage,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 16.dp, bottom = 8.dp)
+                .padding(top = 16.dp, bottom = 16.dp)
         )
     }
 
