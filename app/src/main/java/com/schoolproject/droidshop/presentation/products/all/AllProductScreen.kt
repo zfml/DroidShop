@@ -106,7 +106,9 @@ fun AllProductScreen(
                                         productName = product.name,
                                         productDescription = product.description,
                                         productImage = product.imageUrl,
-                                        productQuantity = 1
+                                        productPrice = product.price,
+                                        productQuantity = 1,
+                                        isChecked = false
                                     )
                                 )
 

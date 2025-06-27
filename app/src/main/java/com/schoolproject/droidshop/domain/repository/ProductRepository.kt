@@ -12,6 +12,16 @@ interface ProductRepository {
 
     suspend fun addToCart(cart: Cart):Resource<Unit>
 
-    suspend fun getAllCartItems(): Flow<Resource<List<Cart>>>
+     fun getAllCartItems(): Flow<List<Cart>>
+
+    suspend fun deleteCartById(cartId: Int)
+
+    fun getCheckedCarts(): Flow<Resource<List<Cart>>>
+
+    suspend fun toggleChecked(id: Int)
+
+    suspend fun toggleAllChecked(checked: Boolean)
+
+    suspend fun changeQuantity(id: Int, delta: Int)
 
 }

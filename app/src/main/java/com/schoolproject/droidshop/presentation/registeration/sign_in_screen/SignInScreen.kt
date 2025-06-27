@@ -1,5 +1,6 @@
 package com.schoolproject.droidshop.presentation.registeration.sign_in_screen
 
+import android.widget.Toast
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -71,6 +73,8 @@ fun SignInScreen(
 
     var isVisible by remember { mutableStateOf(false) }
 
+    val context = LocalContext.current
+
 
 
         LoginContent(
@@ -92,7 +96,11 @@ fun SignInScreen(
                 password = it
             },
             onLoginClick = {
-                viewModel.signIn(email.trim(), password.trim())
+                if(email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(context,"Field is Empty",Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.signIn(email.trim(), password.trim())
+                }
 
             },
             onSignUpClick = {
@@ -223,7 +231,6 @@ fun LoginContent(
                 }
         )
 
-        Text(errorMessage)
 
     }
 

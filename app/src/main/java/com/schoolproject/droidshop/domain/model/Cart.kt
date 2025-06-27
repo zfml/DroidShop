@@ -6,5 +6,7 @@ data class Cart(
     val productName: String,
     val productDescription: String,
     val productImage: String,
-    val productQuantity: Int
+    val productQuantity: Int,
+    val productPrice: Double,
+    val isChecked: Boolean
 )

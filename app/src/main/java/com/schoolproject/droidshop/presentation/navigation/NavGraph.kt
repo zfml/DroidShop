@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.schoolproject.droidshop.presentation.cart_screen.CartScreen
+import com.schoolproject.droidshop.presentation.checkout_screen.CheckoutScreen
 import com.schoolproject.droidshop.presentation.home_screen.HomeScreen
 import com.schoolproject.droidshop.presentation.main_screen.MainScreen
 import com.schoolproject.droidshop.presentation.product_detail.DetailScreen
@@ -150,7 +151,18 @@ fun SetUpNavGraph(
         }
 
         composable<CartScreen> {
-            CartScreen()
+            CartScreen(
+                navigateToMainScreen = {
+                    navController.popBackStack()
+                },
+                navigateToCheckOutScreen = {
+                    navController.navigate(CheckOutScreen)
+                }
+            )
+        }
+
+        composable<CheckOutScreen> {
+            CheckoutScreen()
         }
 
 
@@ -177,6 +189,9 @@ data class DetailScreen(val productId: String)
 
 @Serializable
 object CartScreen
+
+@Serializable
+object CheckOutScreen
 
 
 

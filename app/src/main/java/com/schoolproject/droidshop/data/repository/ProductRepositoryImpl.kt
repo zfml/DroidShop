@@ -13,6 +13,7 @@ import com.schoolproject.droidshop.domain.model.Product
 import com.schoolproject.droidshop.domain.repository.ProductRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
@@ -86,19 +87,46 @@ class ProductRepositoryImpl  @Inject constructor(
             Resource.Error(e.localizedMessage)
         }
 
-    override suspend fun getAllCartItems(): Flow<Resource<List<Cart>>> = flow {
-        emit(Resource.Loading())
-        cartDao.getAllCart()
+    override  fun getAllCartItems(): Flow<List<Cart>> = cartDao.getAllCart()
             .map { cartEntities ->
                 val domainModels = cartEntities.map { it.toCart()}
+                domainModels
+            }
+
+
+
+    override suspend fun deleteCartById(cartId: Int) {
+        cartDao.deleteCartById(cartId)
+    }
+
+    override fun getCheckedCarts(): Flow<Resource<List<Cart>>> = flow {
+        emit(Resource.Loading())
+        cartDao.getCheckedCarts()
+            .map { cartEntities ->
+                val domainModels = cartEntities.map { it.toCart() }
                 Resource.Success(domainModels)
             }
             .catch { e ->
                 emit(Resource.Error(e.message ?: "Unexpected Error"))
             }
-            .collect {
+            .collect{
                 emit(it)
             }
+    }
+
+    override suspend fun toggleChecked(id: Int) {
+        val item = cartDao.getCartItemById(id) ?: return
+        cartDao.updateCart(item.copy(isChecked = !item.isChecked))
+    }
+
+    override suspend fun toggleAllChecked(checked: Boolean) {
+        cartDao.updateAllChecked(checked)
+    }
+
+    override suspend fun changeQuantity(id: Int, delta: Int) {
+        val item = cartDao.getCartItemById(id) ?: return
+        val newQuantity = (item.productQuantity + delta).coerceAtLeast(1)
+        cartDao.updateCart(item.copy(productQuantity = newQuantity))
     }
 
 

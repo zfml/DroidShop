@@ -1,5 +1,6 @@
 package com.schoolproject.droidshop.presentation.registeration.sign_up_screen
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -68,6 +70,8 @@ fun SignUpScreen(
     else
         painterResource(R.drawable.icon_visibility_off)
 
+    val context = LocalContext.current
+
 
 
 
@@ -94,7 +98,12 @@ fun SignUpScreen(
                 passwordVisibility = !passwordVisibility
             },
             onSignUpClicked = {
-                viewModel.signUp(email.trim(), password.trim(), username.trim())
+
+                if(email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(context,"Field is empty",Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.signUp(email.trim(), password.trim(), username.trim())
+                }
 
             },
             onLoginClicked = {
@@ -110,7 +119,7 @@ fun SignUpScreen(
         when(authState){
             is Resource.Error -> {
 
-                Text((authState as Resource.Error).message ?: "Error", color = Color.Red)
+//                Text((authState as Resource.Error).message ?: "Error", color = Color.Red)
 
 
             }
@@ -177,15 +186,15 @@ fun SignUpContent(
             isError = emailError,
             errorMessage = stringResource(R.string.error_email)
         )
-
-        CustomOutlinedTextField(
-            value = username,
-            hint = "Enter your username",
-            onValueChanged = onUsernameChanged,
-            trailingIcon = {},
-            isError = false,
-            errorMessage = null
-        )
+//
+//        CustomOutlinedTextField(
+//            value = username,
+//            hint = "Enter your username",
+//            onValueChanged = onUsernameChanged,
+//            trailingIcon = {},
+//            isError = false,
+//            errorMessage = null
+//        )
 
         CustomOutlinedTextField(
             value = password,

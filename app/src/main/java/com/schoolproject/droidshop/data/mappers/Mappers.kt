@@ -53,7 +53,9 @@ fun CartEntity.toCart(): Cart = Cart(
     productName = productName,
     productDescription = productDescription,
     productImage = productImage,
-    productQuantity = productQuantity
+    productQuantity = productQuantity,
+    productPrice = productPrice,
+    isChecked = isChecked,
 )
 
 
@@ -62,7 +64,9 @@ fun Cart.toCartEntity(): CartEntity = CartEntity(
     productName = productName,
     productDescription = productDescription,
     productImage = productImage,
-    productQuantity = productQuantity
+    productQuantity = productQuantity,
+    productPrice = productPrice,
+    isChecked = isChecked,
 )
 
 

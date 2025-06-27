@@ -62,7 +62,7 @@ fun HomeScreen(
 ){
 
 
-    val cartItems by cartViewModel.cartState.collectAsState()
+    val cartItems by cartViewModel.cartItems.collectAsState()
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -131,7 +131,7 @@ fun HomeScreen(
                             BadgedBox(
                                 badge = {
 
-                                    val items = cartItems.data ?: emptyList()
+                                    val items = cartItems
                                     if(items.isNotEmpty()) {
                                         Badge(
                                             containerColor = Color.Red,
