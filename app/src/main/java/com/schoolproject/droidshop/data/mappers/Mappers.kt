@@ -1,13 +1,16 @@
 package com.schoolproject.droidshop.data.mappers
 
 import com.google.firebase.auth.FirebaseUser
+import com.schoolproject.droidshop.data.model.CartDto
 import com.schoolproject.droidshop.data.model.CartEntity
 import com.schoolproject.droidshop.data.model.CategoryDto
 import com.schoolproject.droidshop.data.model.FavouriteEntity
+import com.schoolproject.droidshop.data.model.OrderDto
 import com.schoolproject.droidshop.data.model.ProductDto
 import com.schoolproject.droidshop.domain.model.Cart
 import com.schoolproject.droidshop.domain.model.Category
 import com.schoolproject.droidshop.domain.model.Favourite
+import com.schoolproject.droidshop.domain.model.Order
 import com.schoolproject.droidshop.domain.model.Product
 import com.schoolproject.droidshop.domain.model.User
 
@@ -88,4 +91,42 @@ fun Favourite.toFavouriteEntity(): FavouriteEntity = FavouriteEntity(
     productImage = productImage,
     productCategory = productCategory,
     productQuantity = productQuantity
+)
+
+fun Cart.toCartDto(): CartDto = CartDto(
+    productId = productId,
+    productName = productName,
+    productDescription = productDescription,
+    productImage = productImage,
+    productQuantity = productQuantity,
+    productPrice = productPrice,
+    isChecked = isChecked
+)
+
+fun CartDto.toCart(): Cart = Cart(
+    productId = productId,
+    productName = productName,
+    productDescription = productDescription,
+    productImage = productImage,
+    productQuantity = productQuantity,
+    productPrice = productPrice,
+    isChecked = isChecked
+)
+
+fun Order.toOrderDto(): OrderDto = OrderDto(
+    userId = userId,
+    items = items.map { it.toCartDto() },
+    address = address,
+    paymentMethod = paymentMethod,
+    totalAmount = totalAmount,
+    timestamp = timestamp
+)
+
+fun OrderDto.toOrder(): Order = Order(
+    userId = userId,
+    items = items.map { it.toCart() },
+    address = address,
+    paymentMethod = paymentMethod,
+    totalAmount = totalAmount,
+    timestamp = timestamp
 )

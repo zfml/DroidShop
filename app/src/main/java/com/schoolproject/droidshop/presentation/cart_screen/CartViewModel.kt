@@ -1,11 +1,19 @@
 package com.schoolproject.droidshop.presentation.cart_screen
 
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.room.util.query
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.schoolproject.droidshop.core.util.Resource
+import com.schoolproject.droidshop.data.model.CartDto
+import com.schoolproject.droidshop.data.model.OrderDto
 import com.schoolproject.droidshop.domain.model.Cart
+import com.schoolproject.droidshop.domain.model.Order
 import com.schoolproject.droidshop.domain.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -130,6 +138,44 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch {
             productRepository.addToCart(cart)
         }
+    }
+
+
+    fun uploadOrderToFirestore(
+        address: String,
+        paymentMethod: String,
+        onSuccess: () -> Unit
+    ) {
+        val user = FirebaseAuth.getInstance().currentUser ?: return
+        val checkedItems  =  selectedCarts.value.data ?: emptyList()
+
+
+
+        val order = OrderDto(
+            userId = user.uid,
+            address = address,
+            paymentMethod = paymentMethod,
+            totalAmount = checkedItems.sumOf { it.productPrice * it.productQuantity },
+            items = checkedItems.map { CartDto(
+                productPrice = it.productPrice,
+                productDescription = it.productDescription,
+                productImage = it.productImage,
+                productQuantity = it.productQuantity,
+                isChecked = it.isChecked,
+                productName = it.productName,
+                productId = it.productId,
+            ) },
+            timestamp = System.currentTimeMillis()
+        )
+
+        Firebase.firestore.collection("orders")
+            .add(order)
+            .addOnSuccessListener {
+                viewModelScope.launch {
+//                    cartDao.deleteCheckedCarts()
+                    onSuccess()
+                }
+            }
     }
 
 

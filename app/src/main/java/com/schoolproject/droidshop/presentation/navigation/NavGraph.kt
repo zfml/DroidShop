@@ -162,7 +162,11 @@ fun SetUpNavGraph(
         }
 
         composable<CheckOutScreen> {
-            CheckoutScreen()
+            CheckoutScreen(
+                navigateToCartScreen = {
+                    navController.popBackStack()
+                }
+            )
         }
 
 

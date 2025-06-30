@@ -89,6 +89,7 @@ fun HomeScreen(
                 },
                 topBar = {
                     CenterAlignedTopAppBar(
+
                         title = {
                         },
                         navigationIcon = {
