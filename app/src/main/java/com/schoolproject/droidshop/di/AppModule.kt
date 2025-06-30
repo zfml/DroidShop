@@ -98,10 +98,11 @@ object AppModule {
     @Singleton
     @Provides
     fun provideProductRepository(
+        firebaseAuth: FirebaseAuth,
         firestore: FirebaseFirestore,
         cartDao: CartDao,
         favouriteDao: FavouriteDao
-    ): ProductRepository = ProductRepositoryImpl(firestore,cartDao,favouriteDao)
+    ): ProductRepository = ProductRepositoryImpl(firestore,cartDao,favouriteDao,firebaseAuth)
 
     @Singleton
     @Provides

@@ -56,7 +56,8 @@ import com.schoolproject.droidshop.ui.theme.poppinsFontFamily
 @Composable
 fun CheckoutScreen(
     viewModel: CartViewModel = hiltViewModel(),
-    navigateToCartScreen: () -> Unit
+    navigateToCartScreen: () -> Unit,
+    navigateToSuccessScreen: () -> Unit,
 ) {
     val checkedItems by viewModel.selectedCarts.collectAsStateWithLifecycle()
     val totalPrice by viewModel.totalPrice.collectAsStateWithLifecycle()
@@ -220,17 +221,15 @@ fun CheckoutScreen(
 
             Spacer(Modifier.height(24.dp))
 
-            // ✅ Confirm Button
             Button(
                 onClick = {
                     if (address.isNotBlank() && paymentMethod.isNotBlank()) {
 
-                        viewModel.uploadOrderToFirestore(
+                        viewModel.uploadOrder(
                             address = address,
                             paymentMethod = paymentMethod,
                             onSuccess = {
-//                                navController.navigate("success")
-                                Log.d("Upload","Successfully Uploaded")
+                                navigateToSuccessScreen()
                             }
                         )
                     }

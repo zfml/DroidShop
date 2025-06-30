@@ -93,47 +93,6 @@ class CartViewModel @Inject constructor(
 
 
 
-//    fun toggleCheckedAllCartItem(isChecked: Boolean) {
-//        val currentData = (_cartItems.value as? Resource.Success)?.data ?: return
-//        _cartItems.value = Resource.Success(
-//            currentData.map {
-//                it.copy(isChecked =  isChecked)
-//            }
-//        )
-//    }
-//
-//    fun toggleChecked(id: Int) {
-//        val currentData = (_cartItems.value as? Resource.Success)?.data ?: return
-//        _cartItems.value = Resource.Success(
-//            currentData.map {
-//                if(it.id == id) it.copy(isChecked = !it.isChecked) else it
-//            }
-//        )
-//    }
-//
-//    fun increaseQuantity(id: Int) {
-//        val currentData = (_cartItems.value as? Resource.Success)?.data ?: return
-//        _cartItems.value  = Resource.Success(
-//            currentData.map {
-//                if(it.id == id) it.copy(productQuantity = it.productQuantity + 1) else it
-//            }
-//        )
-//    }
-//
-//    fun decreaseQuantity(id: Int) {
-//        val currentData = (_cartItems.value as? Resource.Success)?.data ?: return
-//        _cartItems.value = Resource.Success(
-//            currentData.map {
-//                if (it.id == id && it.productQuantity > 1) it.copy(productQuantity = it.productQuantity - 1) else it
-//            }
-//        )
-//    }
-//
-//    fun getSelectedCarts(): List<Cart> {
-//        return  _cartItems.value.data?.filter { it.isChecked } ?: emptyList()
-//    }
-
-
     fun addToCart(cart: Cart) {
         viewModelScope.launch {
             productRepository.addToCart(cart)
@@ -141,43 +100,34 @@ class CartViewModel @Inject constructor(
     }
 
 
-    fun uploadOrderToFirestore(
+
+
+    fun uploadOrder(
         address: String,
         paymentMethod: String,
         onSuccess: () -> Unit
     ) {
-        val user = FirebaseAuth.getInstance().currentUser ?: return
+
         val checkedItems  =  selectedCarts.value.data ?: emptyList()
 
-
-
-        val order = OrderDto(
-            userId = user.uid,
+        val order = Order(
             address = address,
             paymentMethod = paymentMethod,
             totalAmount = checkedItems.sumOf { it.productPrice * it.productQuantity },
-            items = checkedItems.map { CartDto(
-                productPrice = it.productPrice,
-                productDescription = it.productDescription,
-                productImage = it.productImage,
-                productQuantity = it.productQuantity,
-                isChecked = it.isChecked,
-                productName = it.productName,
-                productId = it.productId,
-            ) },
-            timestamp = System.currentTimeMillis()
+            items = checkedItems,
+            timestamp = System.currentTimeMillis(),
         )
 
-        Firebase.firestore.collection("orders")
-            .add(order)
-            .addOnSuccessListener {
-                viewModelScope.launch {
-//                    cartDao.deleteCheckedCarts()
-                    onSuccess()
-                }
-            }
+        viewModelScope.launch {
+           when(productRepository.uploadOrder(order)) {
+               is Resource.Error -> {}
+               is Resource.Idle -> {}
+               is Resource.Loading -> {}
+               is Resource.Success -> {
+                   onSuccess()
+               }
+           }
+
+        }
     }
-
-
-
 }

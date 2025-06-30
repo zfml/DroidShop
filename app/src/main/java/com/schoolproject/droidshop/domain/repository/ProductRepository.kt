@@ -2,6 +2,7 @@ package com.schoolproject.droidshop.domain.repository
 
 import com.schoolproject.droidshop.core.util.Resource
 import com.schoolproject.droidshop.domain.model.Cart
+import com.schoolproject.droidshop.domain.model.Order
 import com.schoolproject.droidshop.domain.model.Product
 import kotlinx.coroutines.flow.Flow
 
@@ -23,5 +24,7 @@ interface ProductRepository {
     suspend fun toggleAllChecked(checked: Boolean)
 
     suspend fun changeQuantity(id: Int, delta: Int)
+
+    suspend fun uploadOrder(order: Order):Resource<Unit>
 
 }

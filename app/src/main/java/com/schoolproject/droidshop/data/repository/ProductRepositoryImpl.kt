@@ -1,14 +1,21 @@
 package com.schoolproject.droidshop.data.repository
 
+import android.annotation.SuppressLint
+import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.schoolproject.droidshop.core.util.Resource
 import com.schoolproject.droidshop.data.local.dao.CartDao
 import com.schoolproject.droidshop.data.local.dao.FavouriteDao
 import com.schoolproject.droidshop.data.mappers.toCart
 import com.schoolproject.droidshop.data.mappers.toCartEntity
+import com.schoolproject.droidshop.data.mappers.toOrderDto
 import com.schoolproject.droidshop.data.mappers.toProduct
 import com.schoolproject.droidshop.data.model.ProductDto
 import com.schoolproject.droidshop.domain.model.Cart
+import com.schoolproject.droidshop.domain.model.Order
 import com.schoolproject.droidshop.domain.model.Product
 import com.schoolproject.droidshop.domain.repository.ProductRepository
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +23,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,8 +32,9 @@ import javax.inject.Singleton
 class ProductRepositoryImpl  @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val cartDao: CartDao,
-    private val favouriteDao: FavouriteDao
-): ProductRepository{
+    private val favouriteDao: FavouriteDao,
+    private val firebaseAuth: FirebaseAuth,
+    ): ProductRepository{
 
     private val productsCollection = firestore.collection("products")
 
@@ -128,6 +137,21 @@ class ProductRepositoryImpl  @Inject constructor(
         val newQuantity = (item.productQuantity + delta).coerceAtLeast(1)
         cartDao.updateCart(item.copy(productQuantity = newQuantity))
     }
+
+    override suspend fun uploadOrder(order: Order): Resource<Unit> = try {
+        val user =  firebaseAuth.currentUser!!
+
+        val newOrder = order.copy(userId = user.uid)
+            Firebase.firestore.collection("orders")
+                .add(newOrder.toOrderDto())
+        cartDao.deleteAllItems()
+        Resource.Success(Unit)
+        }catch (e: Exception) {
+            Resource.Error(e.toString())
+        }
+
+
+
 
 
 }

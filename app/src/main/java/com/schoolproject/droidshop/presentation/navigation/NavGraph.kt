@@ -17,6 +17,7 @@ import com.schoolproject.droidshop.presentation.cart_screen.CartScreen
 import com.schoolproject.droidshop.presentation.checkout_screen.CheckoutScreen
 import com.schoolproject.droidshop.presentation.home_screen.HomeScreen
 import com.schoolproject.droidshop.presentation.main_screen.MainScreen
+import com.schoolproject.droidshop.presentation.payment_success.PaymentSuccessScreen
 import com.schoolproject.droidshop.presentation.product_detail.DetailScreen
 import com.schoolproject.droidshop.presentation.registeration.sign_in_screen.SignInScreen
 import com.schoolproject.droidshop.presentation.registeration.sign_up_screen.SignUpScreen
@@ -165,6 +166,24 @@ fun SetUpNavGraph(
             CheckoutScreen(
                 navigateToCartScreen = {
                     navController.popBackStack()
+                },
+                navigateToSuccessScreen = {
+                    navController.navigate(PaymentSuccess)
+                }
+            )
+        }
+
+        composable<PaymentSuccess> {
+            PaymentSuccessScreen(
+                onNavigateHome = {
+                    navController.navigate(MainScreen) {
+                        popUpTo(PaymentSuccess) {
+                            inclusive = true
+                        }
+                        popUpTo(CartScreen) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }
@@ -196,6 +215,9 @@ object CartScreen
 
 @Serializable
 object CheckOutScreen
+
+@Serializable
+object PaymentSuccess
 
 
 
