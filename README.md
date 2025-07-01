@@ -2,7 +2,10 @@
 
 A fully functional and beautifully designed shopping app built with **Jetpack Compose**, **Firebase**, **Room**, **StateFlow**, and **Hilt**. This project showcases my ability to take an inspired UI/UX and refactor it into a real-world, scalable app using clean architecture and modern Android tools.
 
-> 🔖 **Inspired by a YouTube project** ([Watch Here](https://youtu.be/wLzXLRInSRM?si=UzKoS7dlv6zdDRLw)) and extended into a production-ready architecture using Firebase, Room, and advanced Android development patterns.
+>📌 **Inspiration:
+This project’s UI/UX was inspired by this YouTube video([Watch Here](https://youtu.be/wLzXLRInSRM?si=UzKoS7dlv6zdDRLw)) and  [this GitHub repository](https://github.com/dwiaziprasetya/VibeStore).
+I rebuilt the app using a completely different codebase, added modern Android architecture (MVVM, Hilt, Room, StateFlow), and used Firebase for authentication and data storage.
+
 
 ---
 
